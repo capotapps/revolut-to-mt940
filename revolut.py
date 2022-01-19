@@ -8,9 +8,9 @@ from datetime import datetime, timedelta
 from data import Transaction
 
 EXCPECT_HEADERS = [
-    'Date started (UTC)', 'Time started (UTC)', 'Date completed (UTC)',
-    'Time completed (UTC)', 'State', 'Type', 'Description', 'Reference',
-    'Payer', 'Card name', 'Card number', 'Orig currency', 'Orig amount',
+    'Date started (UTC)', 'Date completed (UTC)',
+    'ID', 'Type', 'Description', 'Reference',
+    'Payer', 'Card number', 'Orig currency', 'Orig amount',
     'Payment currency', 'Amount', 'Fee', 'Balance', 'Account',
     'Beneficiary account number', 'Beneficiary sort code or routing number',
     'Beneficiary IBAN', 'Beneficiary BIC'
@@ -83,11 +83,12 @@ class RevolutCsvReader:
             return datetime.strptime(date_str + time_str, DATETIME_FORMAT)
 
 
-        _0, _1, completed_date_str, completed_time_str, _4, _5, name, description, _8, _9, _10, \
-        _11, _12, _13, amount_str, fee_str, balance_str, _17, _18, _19, iban, _21 \
+        _0, completed_date_str, _2, name, description, _5, _6, _7, \
+        _8, _9, _10, amount_str, fee_str, balance_str, _14, _15, _16, iban, _18 \
             = row
 
-        completed_datetime = _parse_datetime(completed_date_str, completed_time_str)
+
+        completed_datetime = _parse_datetime(completed_date_str, "00:00:00")
         amount, fee, balance = \
             float(amount_str), float(fee_str), float(balance_str)
 
